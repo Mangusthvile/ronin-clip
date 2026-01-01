@@ -1,0 +1,5 @@
+{
+  "name": "RoninClip",
+  "description": "Local tool for extraction of web chapters into plain text files with protocol management.",
+  "requestFramePermissions": []
+}

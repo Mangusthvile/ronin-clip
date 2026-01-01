@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoninClip</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              void: '#050505',       // Main Background
+              armor: '#121212',      // Card/Panel Background
+              plate: '#1E1E1E',      // Input/Secondary Background
+              katana: '#DC2626',     // Primary Red Accent
+              blood: '#7F1D1D',      // Dark Red
+              steel: '#9CA3AF',      // Muted Text
+              mist: '#E5E7EB',       // Primary Text
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+              mono: ['JetBrains Mono', 'Menlo', 'monospace'],
+            },
+            boxShadow: {
+              'neon': '0 0 5px theme("colors.katana"), 0 0 10px theme("colors.katana")',
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "url": "https://esm.sh/url@^0.11.4",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.11.0",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "vite": "https://esm.sh/vite@^7.3.0",
+    "express": "https://esm.sh/express@^5.2.1",
+    "fs": "https://esm.sh/fs@^0.0.1-security",
+    "cors": "https://esm.sh/cors@^2.8.5",
+    "path": "https://esm.sh/path@^0.12.7",
+    "playwright": "https://esm.sh/playwright@^1.57.0",
+    "cheerio": "https://esm.sh/cheerio@^1.1.2",
+    "sanitize-filename": "https://esm.sh/sanitize-filename@^1.6.3",
+    "adm-zip": "https://esm.sh/adm-zip@^0.5.16",
+    "buffer": "https://esm.sh/buffer@^6.0.3"
+  }
+}
+</script>
+</head>
+  <body class="bg-void text-mist h-screen overflow-hidden selection:bg-katana selection:text-white">
+    <div id="root" class="h-full"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

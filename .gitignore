@@ -1,0 +1,30 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Production
+dist
+build
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# RoninClip Specific
+output/
+data/settings.json
+# We keep templates.json in git so you don't lose your protocols if you clone elsewhere
+# But we ignore the settings because those are per-machine
+data/sessions/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
