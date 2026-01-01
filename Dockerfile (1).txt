@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/playwright:v1.42.1-jammy
+
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+ENV NODE_ENV=development
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
+
+ENV NODE_ENV=production
+
+EXPOSE 8787
+
+CMD ["npm","run","start"]
