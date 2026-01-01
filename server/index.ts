@@ -4,6 +4,11 @@ import * as storage from './storage.ts';
 import * as extractor from './extractor.ts';
 import * as queue from './queue.ts';
 import { normalizeHost } from './domain.ts';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 8787;
@@ -104,12 +109,12 @@ app.post('/api/batch/start', asyncHandler(async (req: any, res: any) => {
 app.post('/api/batch/stop', (req, res) => {
     queue.stopProcessing();
     res.json({ success: true });
-});
+}));
 
 app.post('/api/batch/clear', (req, res) => {
     queue.clearQueue();
     res.json({ success: true });
-});
+}));
 
 app.get('/api/batch/download', asyncHandler(async (req: any, res: any) => {
     const buffer = await queue.createBatchZip();
@@ -117,6 +122,24 @@ app.get('/api/batch/download', asyncHandler(async (req: any, res: any) => {
     res.set('Content-Disposition', 'attachment; filename=ronin_batch.zip');
     res.send(buffer);
 }));
+
+// --- SERVE STATIC FRONTEND (Must be after API routes) ---
+const distPath = path.join(__dirname, '../dist');
+
+// Check if dist exists (it might not in dev mode, which is fine)
+app.use(express.static(distPath));
+
+// Catch-all for React Router (Single Page App)
+app.get('*', (req, res, next) => {
+    // If request accepts html and is not an api call
+    if (req.accepts('html') && !req.path.startsWith('/api')) {
+        res.sendFile(path.join(distPath, 'index.html'), (err) => {
+            if (err) next();
+        });
+    } else {
+        next();
+    }
+});
 
 // Error Handler
 app.use((err: any, req: any, res: any, next: any) => {
