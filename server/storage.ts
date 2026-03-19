@@ -41,7 +41,7 @@ const DEFAULT_TEMPLATES: ProtocolTemplate[] = [
     id: 'patreon-default',
     domain: 'patreon.com',
     titleSelector: '[data-tag="post-title"], h1, [data-testid="post-title"]',
-    contentSelector: '[data-tag="post-content"], div[class*="PostContent__Wrapper"], .cm-bmFJIJ, .cm-bgKEqA', 
+    contentSelector: '[data-tag="post-content"], [data-testid="post-content"], div[class*="PostContent__Wrapper"], .cm-bmFJIJ, .cm-bgKEqA, article, main', 
     removeSelectors: [
         '[data-tag="post-meta"]',
         '[data-tag="post-actions"]',
