@@ -1,10 +1,11 @@
 import React from 'react';
 import { HashRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom';
-import { Scissors, Layers, Settings as SettingsIcon, LayoutTemplate, FileText, Sword, Activity } from 'lucide-react';
+import { Layers, Settings as SettingsIcon, LayoutTemplate, FileText, Sword, Activity, Book } from 'lucide-react';
 import SingleExtract from './components/SingleExtract';
 import BatchExtract from './components/BatchExtract';
 import Protocols from './components/Protocols';
 import Settings from './components/Settings';
+import Scrolls from './components/Scrolls';
 
 const NavItem = ({ to, icon: Icon, label }: { to: string; icon: React.ElementType; label: string }) => {
   const location = useLocation();
@@ -49,6 +50,7 @@ export default function App() {
             <NavItem to="/" icon={FileText} label="Extraction" />
             <NavItem to="/batch" icon={Layers} label="Batch Queue" />
             <NavItem to="/protocols" icon={LayoutTemplate} label="Protocols" />
+            <NavItem to="/scrolls" icon={Book} label="Scrolls" />
             <NavItem to="/settings" icon={SettingsIcon} label="System" />
           </nav>
 
@@ -72,6 +74,7 @@ export default function App() {
               <Route path="/" element={<SingleExtract />} />
               <Route path="/batch" element={<BatchExtract />} />
               <Route path="/protocols" element={<Protocols />} />
+              <Route path="/scrolls" element={<Scrolls />} />
               <Route path="/settings" element={<Settings />} />
             </Routes>
           </div>

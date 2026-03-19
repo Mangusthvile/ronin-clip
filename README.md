@@ -2,7 +2,13 @@
 
 A local personal tool to extract web chapters to plain text.
 
-## Setup
+## Quick Start (Windows)
+
+1. **Double-click `Start_RoninClip.bat`**.
+   - If this is your first time, it will automatically install all dependencies and the browser engine.
+   - Once ready, it will open your default web browser to the app.
+
+## Manual Setup (Mac/Linux/Advanced)
 
 1. **Install Dependencies:**
    ```bash
@@ -13,22 +19,21 @@ A local personal tool to extract web chapters to plain text.
    npx playwright install chromium
    ```
 
-## Running the App
+3. **Running the App**
+   Open two terminals in the project folder.
 
-Open two terminals in the project folder.
+   **Terminal A**
+   ```bash
+   npm run server
+   ```
+   You must see: `RoninClip Backend running on port 8787`
 
-**Terminal A**
-```bash
-npm run server
-```
-You must see: `RoninClip Backend running on port 8787`
+   **Terminal B**
+   ```bash
+   npm run dev
+   ```
 
-**Terminal B**
-```bash
-npm run dev
-```
-
-Then open the app at [http://localhost:5173](http://localhost:5173) and those “Connection to backend failed” screens should disappear.
+Then open the app at [http://localhost:5173](http://localhost:5173).
 
 ## Features
 

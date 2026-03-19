@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AppSettings } from '../types';
 import { fetchJson } from '../src/lib/http';
-import { Save, Settings as SettingsIcon } from 'lucide-react';
+import { Save, Settings as SettingsIcon, Info } from 'lucide-react';
 
 export default function Settings() {
   const [settings, setSettings] = useState<AppSettings | null>(null);
@@ -37,6 +37,17 @@ export default function Settings() {
         <SettingsIcon className="absolute -top-10 -right-10 w-64 h-64 text-white opacity-5 rotate-12" />
 
         <div className="relative z-10 space-y-10">
+            {/* Info Block answering "What is this tab for?" */}
+            <div className="bg-blue-950/20 border border-blue-900/30 p-4 flex gap-4">
+                <Info className="w-6 h-6 text-blue-400 shrink-0" />
+                <div className="space-y-1">
+                    <h4 className="text-blue-400 text-xs font-bold uppercase tracking-wider">System Control</h4>
+                    <p className="text-steel text-xs leading-relaxed font-mono">
+                        This panel controls the scraping engine's behavior. Use <span className="text-white">Concurrency</span> and <span className="text-white">Rate Limit</span> to throttle requests if you are getting blocked (failing) by target sites. Adjust <span className="text-white">Filename Pattern</span> to organize your downloads.
+                    </p>
+                </div>
+            </div>
+
             <section>
               <h3 className="text-sm font-bold text-katana uppercase tracking-widest mb-6 border-b border-white/5 pb-2">Core Performance</h3>
               <div className="grid grid-cols-2 gap-8">
@@ -48,6 +59,7 @@ export default function Settings() {
                       onChange={e => setSettings({...settings, concurrency: parseInt(e.target.value) || 1})}
                       className="w-full bg-plate border border-white/10 p-3 text-white focus:border-katana focus:outline-none font-mono"
                    />
+                   <p className="text-[10px] text-steel font-mono">Simultaneous extractions allowed.</p>
                  </div>
                  <div className="space-y-2">
                    <label className="block text-xs font-bold text-steel uppercase tracking-wider font-mono">Rate Limit (req/min)</label>
@@ -57,6 +69,7 @@ export default function Settings() {
                       onChange={e => setSettings({...settings, rateLimitPerMinute: parseInt(e.target.value) || 10})}
                       className="w-full bg-plate border border-white/10 p-3 text-white focus:border-katana focus:outline-none font-mono"
                    />
+                   <p className="text-[10px] text-steel font-mono">Maximum requests per minute.</p>
                  </div>
               </div>
             </section>
@@ -72,7 +85,7 @@ export default function Settings() {
                         onChange={e => setSettings({...settings, filenamePattern: e.target.value})}
                         className="w-full bg-plate border border-white/10 p-3 text-white focus:border-katana focus:outline-none font-mono text-sm"
                     />
-                    <p className="text-[10px] text-steel font-mono">Variables: &#123;title&#125;</p>
+                    <p className="text-[10px] text-steel font-mono">Variables: &#123;title&#125; - Defines how extracted text files are named.</p>
                   </div>
                </div>
             </section>

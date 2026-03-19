@@ -1,9 +1,12 @@
+
 export interface ProtocolTemplate {
   id: string;
   domain: string; // Normalized hostname
   titleSelector: string;
   contentSelector: string;
   removeSelectors?: string[]; // Array of selectors to remove
+  cookies?: string; // Auth cookies
+  userAgent?: string; // Custom UA
   createdAt: number;
   updatedAt: number;
 }
@@ -19,6 +22,8 @@ export interface ExtractedChapter {
   title: string;
   content: string;
   url: string;
+  hasRichContent?: boolean; // True if tables/boxes were detected
+  hasImages?: boolean; // True if images were detected
 }
 
 export interface ExtractionResponse {
@@ -45,6 +50,9 @@ export interface BatchItem {
   status: 'pending' | 'processing' | 'success' | 'failed';
   result?: ExtractedChapter;
   error?: string;
+  // Manual overrides for TaleVox
+  manualSeriesTitle?: string;
+  manualChapterIndex?: number;
 }
 
 export interface BatchStatus {

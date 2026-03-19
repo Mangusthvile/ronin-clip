@@ -1,19 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { ProtocolTemplate, DiagnosticResult } from '../types';
 import { fetchJson } from '../src/lib/http';
-import { Plus, Trash, Save, LayoutTemplate, ScanLine, Play, AlertTriangle } from 'lucide-react';
+import { Plus, Trash, Save, LayoutTemplate, ScanLine, Play, Book, X, DownloadCloud, Lock, KeyRound } from 'lucide-react';
 
 export default function Protocols() {
   const [protocols, setProtocols] = useState<ProtocolTemplate[]>([]);
   const [editing, setEditing] = useState<Partial<ProtocolTemplate>>({});
   const [testUrl, setTestUrl] = useState('');
   const [diag, setDiag] = useState<DiagnosticResult | null>(null);
+  
+  // Library Modal State
+  const [showLibrary, setShowLibrary] = useState(false);
+  const [libraryDefaults, setLibraryDefaults] = useState<ProtocolTemplate[]>([]);
 
   useEffect(() => {
     loadProtocols();
   }, []);
 
   const loadProtocols = () => fetchJson<ProtocolTemplate[]>('/api/templates').then(setProtocols);
+
+  const openLibrary = async () => {
+      try {
+          const defaults = await fetchJson<ProtocolTemplate[]>('/api/templates/defaults');
+          setLibraryDefaults(defaults);
+          setShowLibrary(true);
+      } catch (e) {
+          alert("Failed to load library");
+      }
+  };
+
+  const addFromLibrary = async (template: ProtocolTemplate) => {
+      const toSave = {
+          ...template,
+          id: undefined 
+      };
+
+      const existing = protocols.find(p => p.domain === template.domain);
+      if (existing) {
+          toSave.id = existing.id;
+      }
+
+      await fetchJson('/api/templates', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(toSave)
+      });
+      loadProtocols();
+  };
 
   const save = async () => {
       if (!editing.domain || !editing.titleSelector || !editing.contentSelector) return;
@@ -44,7 +77,9 @@ export default function Protocols() {
                   domain: editing.domain,
                   titleSelector: editing.titleSelector,
                   contentSelector: editing.contentSelector,
-                  removeSelectors: editing.removeSelectors
+                  removeSelectors: editing.removeSelectors,
+                  cookies: editing.cookies,
+                  userAgent: editing.userAgent
               })
           });
           setDiag(res);
@@ -54,7 +89,50 @@ export default function Protocols() {
   };
 
   return (
-    <div className="h-full flex flex-col space-y-6 animate-in fade-in duration-500">
+    <div className="h-full flex flex-col space-y-6 animate-in fade-in duration-500 relative">
+      
+      {/* Library Modal */}
+      {showLibrary && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+              <div className="bg-armor border border-white/10 w-full max-w-2xl flex flex-col max-h-[80vh] shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                  <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white/5">
+                      <div>
+                          <h3 className="text-xl font-bold text-white uppercase tracking-widest flex items-center gap-2">
+                              <Book className="text-katana w-5 h-5" /> Protocol Library
+                          </h3>
+                          <p className="text-xs text-steel font-mono mt-1">SELECT PRE-CONFIGURED TEMPLATES TO INSTALL</p>
+                      </div>
+                      <button onClick={() => setShowLibrary(false)} className="text-steel hover:text-white transition-colors">
+                          <X className="w-6 h-6" />
+                      </button>
+                  </div>
+                  <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-3">
+                      {libraryDefaults.map((def, i) => {
+                          const isInstalled = protocols.some(p => p.domain === def.domain);
+                          return (
+                              <div key={i} className="flex items-center justify-between p-4 border border-white/5 bg-black/20 hover:border-white/20 transition-colors">
+                                  <div>
+                                      <div className="text-white font-bold font-mono text-sm">{def.domain}</div>
+                                      <div className="text-[10px] text-steel font-mono mt-1 space-x-2">
+                                          <span>TITLE: {def.titleSelector}</span>
+                                          <span className="text-white/20">|</span>
+                                          <span>CONTENT: {def.contentSelector}</span>
+                                      </div>
+                                  </div>
+                                  <button 
+                                    onClick={() => addFromLibrary(def)}
+                                    className={`px-4 py-2 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 transition-all border ${isInstalled ? 'border-green-500/50 text-green-500 hover:bg-green-500/10' : 'bg-katana text-black border-katana hover:bg-red-500'}`}
+                                  >
+                                      {isInstalled ? 'Update' : 'Add'}
+                                  </button>
+                              </div>
+                          );
+                      })}
+                  </div>
+              </div>
+          </div>
+      )}
+
       <div className="flex justify-between items-center border-b border-white/10 pb-4">
         <div>
            <h2 className="text-3xl font-bold text-white tracking-tight uppercase flex items-center gap-3">
@@ -62,9 +140,14 @@ export default function Protocols() {
            </h2>
            <p className="text-steel font-mono text-xs mt-1 tracking-wider">&gt;&gt; DOMAIN SPECIFIC SELECTOR CONFIGURATION</p>
         </div>
-        <button onClick={() => setEditing({ id: '', domain: '', titleSelector: '', contentSelector: '', removeSelectors: [] })} className="bg-white/10 hover:bg-katana hover:text-black text-white px-4 py-2 text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all">
-           <Plus className="w-4 h-4" /> Initialize New
-        </button>
+        <div className="flex gap-2">
+            <button onClick={openLibrary} className="bg-white/5 hover:bg-white/10 text-steel hover:text-white px-4 py-2 text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all border border-white/5">
+                <Book className="w-4 h-4" /> Library
+            </button>
+            <button onClick={() => setEditing({ id: '', domain: '', titleSelector: '', contentSelector: '', removeSelectors: [] })} className="bg-white/10 hover:bg-katana hover:text-black text-white px-4 py-2 text-xs font-bold uppercase tracking-widest flex items-center gap-2 transition-all">
+               <Plus className="w-4 h-4" /> Initialize New
+            </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1 min-h-0">
@@ -165,14 +248,39 @@ export default function Protocols() {
                 </div>
 
                 <div className="space-y-2">
-                   <label className="block text-xs font-bold text-steel uppercase tracking-wider font-mono">Removal Selectors (CSV)</label>
+                   <label className="block text-xs font-bold text-steel uppercase tracking-wider font-mono">Removal Selectors (CSS, Comma Separated)</label>
                    <input 
                       type="text" 
                       value={editing.removeSelectors?.join(', ') || ''} 
                       onChange={e => setEditing({...editing, removeSelectors: e.target.value.split(',').map(s => s.trim())})}
-                      placeholder=".ad, .share"
+                      placeholder=".ad, #nav-bar, script, .hidden-content"
                       className="w-full bg-plate border border-white/10 p-3 text-red-400 focus:border-katana focus:outline-none font-mono text-sm"
                     />
+                </div>
+
+                <div className="bg-plate border border-white/5 p-4 space-y-4">
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                        <Lock className="w-3 h-3 text-katana" /> Authentication (Advanced)
+                    </h4>
+                    <div className="space-y-2">
+                        <label className="block text-[10px] font-bold text-steel uppercase tracking-wider font-mono">Cookies (Copy string from browser request header)</label>
+                        <textarea 
+                            value={editing.cookies || ''}
+                            onChange={e => setEditing({...editing, cookies: e.target.value})}
+                            placeholder="session=123xyz; auth_token=..."
+                            className="w-full bg-void border border-white/10 p-3 text-white text-xs font-mono focus:border-katana focus:outline-none h-20 resize-none"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <label className="block text-[10px] font-bold text-steel uppercase tracking-wider font-mono">User Agent (Optional)</label>
+                        <input 
+                            type="text"
+                            value={editing.userAgent || ''}
+                            onChange={e => setEditing({...editing, userAgent: e.target.value})}
+                            placeholder="Mozilla/5.0..."
+                            className="w-full bg-void border border-white/10 p-3 text-white text-xs font-mono focus:border-katana focus:outline-none"
+                        />
+                    </div>
                 </div>
                 
                 <div className="pt-6 border-t border-white/10 flex justify-end">
