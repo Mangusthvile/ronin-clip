@@ -1,0 +1,87 @@
+[
+  {
+    "id": "novelbin-default",
+    "domain": "novelbin.com",
+    "titleSelector": "h3, .chr-title, h2",
+    "contentSelector": "#chr-content, #txt, .chr-c",
+    "removeSelectors": [
+      ".chr-nav-top",
+      ".chr-nav-bottom",
+      "#div-gpt-ad",
+      ".google-auto-placed",
+      "script",
+      ".ads",
+      "#div-gpt-ad-1",
+      ".btn-group"
+    ],
+    "createdAt": 1774053087532,
+    "updatedAt": 1774053087532
+  },
+  {
+    "id": "royalroad-default",
+    "domain": "royalroad.com",
+    "titleSelector": "h1",
+    "contentSelector": ".chapter-content",
+    "removeSelectors": [
+      ".author-note-portlet",
+      ".portlet-footer",
+      ".nav-buttons",
+      ".margin-bottom-10",
+      ".row",
+      "hr"
+    ],
+    "createdAt": 1774053087532,
+    "updatedAt": 1774053087532
+  },
+  {
+    "id": "patreon-default",
+    "domain": "patreon.com",
+    "titleSelector": "[data-tag=\"post-title\"], h1, [data-testid=\"post-title\"]",
+    "contentSelector": "[data-tag=\"post-content\"], [data-testid=\"post-content\"], [data-tag=\"post-card\"], div[class*=\"PostContent\"], div[class*=\"RichText\"], article, main",
+    "removeSelectors": [
+      "[data-tag=\"post-meta\"]",
+      "[data-tag=\"post-actions\"]",
+      "[data-tag=\"post-tags\"]",
+      "[aria-label=\"Post actions\"]",
+      "nav",
+      "button",
+      "ul",
+      "aside",
+      "form",
+      "[class*=\"PostHeader__MetaContainer\"]",
+      "[class*=\"Footer\"]",
+      "[data-tag=\"comment-row\"]",
+      "[id=\"comments\"]",
+      "[data-tag=\"comments-section\"]",
+      "div[class*=\"Comment\"]",
+      "[data-tag=\"like-button\"]",
+      "[data-tag=\"share-button\"]",
+      "[data-tag=\"related-posts\"]",
+      "[data-tag=\"recommended-posts\"]",
+      "[data-tag=\"next-post\"]",
+      "[class*=\"RelatedPosts\"]",
+      "[aria-hidden=\"true\"]",
+      "[class*=\"hidden\"]",
+      "hr"
+    ],
+    "cookies": "patreon_locale_code=en-US; patreon_location_country_code=US; __ssid=a25506433f5ca023c3b468a59d2ac6e; patreon_device_id=4cf7e0cd-1be2-48d9-bd10-00e3e43185e9; g_state={\"i_l\":0,\"i_ll\":1770816532281,\"i_e\":{\"enable_itp_optimization\":17}}; session_id=4gOEDn_X11YLXj11t-M2-YDQdWujknJkjLdBOpR-ygI; stream_user_token={%22id%22:%2246228873%22%2C%22type%22:%22stream-user-token%22%2C%22token%22:%22eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNDYyMjg4NzMiLCJleHAiOjE3NzQ4OTM5ODEsImlhdCI6MTc3MzY4NDM4MX0.Elrxg_afohstJYrjaxFbd1UhT9gCYxQGz8AN7H4zyFE%22%2C%22expiresAt%22:%222026-03-30T18:06:21.073+00:00%22}; _cfuvid=FhDhCklUDQTAP_zbiv4QxaORlDz8zKDnYIEj02fhVcE-1773946187860-0.0.1.1-604800000; __cf_bm=Qh4h5_49RIBu2iO4FT.vhk8AvQ0_r5xFGtinRbKbaiI-1773953535-1.0.1.1-O7IHn_vCoqs9sWAxEYrEGA4FgPuACnWF3Qn.Cmg8zdY9Qncv.f9MsmHGzfeJWcjyqDKrbFQYshaCK3G9j13FM6_II6ndnIMqoUqZkbQ9bBdxQUGf.lP8u20r9m4oTC8u; analytics_session_id=a8f1afbc-9912-4697-94a3-9a72ff634001",
+    "createdAt": 1774053087532,
+    "updatedAt": 1774054571588
+  },
+  {
+    "id": "ranobes-default",
+    "domain": "ranobes.top",
+    "titleSelector": "h1",
+    "contentSelector": "#arr",
+    "removeSelectors": [
+      ".ads",
+      "script",
+      "div[id^=\"yandex\"]",
+      ".mistape_caption",
+      ".navi",
+      ".roi"
+    ],
+    "createdAt": 1774053087532,
+    "updatedAt": 1774053087532
+  }
+]
